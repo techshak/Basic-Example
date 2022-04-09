@@ -1,6 +1,5 @@
 package com.smartflowtech.takehome.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -11,21 +10,20 @@ import com.smartflowtech.takehome.data.model.Product
 import com.smartflowtech.takehome.databinding.SingleItemCardBinding
 import com.smartflowtech.takehome.utils.Constants.Companion.IMAGE
 
-class ProductListRecyclerAdapter:
+class ProductListRecyclerAdapter :
     RecyclerView.Adapter<ProductListRecyclerAdapter.ProductViewHolder>() {
 
-    inner class ProductViewHolder(binding:SingleItemCardBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ProductViewHolder(binding: SingleItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
         private var productImage = binding.productImageview
         private var productId = binding.productIdTextview
         private var productSlug = binding.slugTextview
         private var category = binding.categoryTextview
 
-        fun bindData(item:Product,image:String)= with (itemView){
+        fun bindData(item: Product, image: String) = with(itemView) {
             Glide.with(context).load(image).into(productImage)
             productId.text = item.id.toString()
             productSlug.text = item.slug
             category.text = item.category_name
-
         }
     }
 
@@ -42,7 +40,7 @@ class ProductListRecyclerAdapter:
     var differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val binding = SingleItemCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = SingleItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProductViewHolder(binding)
     }
 

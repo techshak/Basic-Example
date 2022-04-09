@@ -17,14 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel@Inject constructor(private val repository: ProductsRepository) : ViewModel() {
     private var _products = MutableLiveData<Resource<ProductList>>()
-    val productList: LiveData<Resource<ProductList>> get () =_products
+    val productList: LiveData<Resource<ProductList>> get() = _products
 
-    fun getProductList ()= viewModelScope.launch(Dispatchers.IO) {
+    fun getProductList() = viewModelScope.launch(Dispatchers.IO) {
         _products.postValue(Resource.Loading())
         val onlineProducts = repository.getProductList()
-        Log.d("Api data",onlineProducts.body().toString())
+        Log.d("Api data", onlineProducts.body().toString())
         _products.postValue(handleProductData(onlineProducts))
-
     }
 
     private fun handleProductData(userData: Response<ProductList>): Resource<ProductList> {

@@ -15,8 +15,8 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideProductsRepository(
-        api:ProductAPI
-    ):ProductsRepository{
+        api: ProductAPI
+    ): ProductsRepository {
         return ProductsRepository(api)
     }
 }

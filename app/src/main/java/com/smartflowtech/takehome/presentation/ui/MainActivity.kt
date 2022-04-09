@@ -1,11 +1,10 @@
 package com.smartflowtech.takehome.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.smartflowtech.takehome.R
 import com.smartflowtech.takehome.databinding.ActivityMainBinding
@@ -21,8 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var connectivityLiveData: ConnectivityLiveData
     private val viewModel: ProductViewModel by viewModels()
     private var productListRecyclerAdapter = ProductListRecyclerAdapter()
-    private lateinit var networkSnackbar :Snackbar
-
+    private lateinit var networkSnackbar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.productRecyclerview.adapter = productListRecyclerAdapter
-        networkSnackbar =Snackbar.make(
+        networkSnackbar = Snackbar.make(
             binding.productScreenLayout,
             R.string.no_network,
             Snackbar.LENGTH_INDEFINITE
@@ -43,31 +41,27 @@ class MainActivity : AppCompatActivity() {
                 // Toggle the visibility of the network error layer
                 viewModel.getProductList()
                 networkSnackbar.dismiss()
-            }else {networkSnackbar.show() }
+            } else { networkSnackbar.show() }
         })
 
-
-
         viewModel.productList.observe(
-            this, { products->
-                when(products) {
-                    is Resource.Loading->{
-                        binding.productProgressbar.visibility= View.VISIBLE
-                        }
-                    is Resource.Error->{
-                        Toast.makeText(this, "Error:" , Toast.LENGTH_LONG).show()
-                        binding.productProgressbar.visibility= View.GONE
-                        }
-                    is Resource.Success->{
-                        binding.productProgressbar.visibility= View.GONE
+            this, { products ->
+                when (products) {
+                    is Resource.Loading -> {
+                        binding.productProgressbar.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(this, "Error:", Toast.LENGTH_LONG).show()
+                        binding.productProgressbar.visibility = View.GONE
+                    }
+                    is Resource.Success -> {
+                        binding.productProgressbar.visibility = View.GONE
                         products.data?.let {
                             productListRecyclerAdapter.differ.submitList(it.data)
                         }
-                     }
+                    }
                 }
-
             }
         )
     }
-
 }
